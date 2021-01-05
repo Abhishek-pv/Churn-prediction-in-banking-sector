@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/abhi/Churn-prediction-in-banking-sector/project/bin/python3",
+    "python.pythonPath": "/usr/local/opt/python@3.8/bin/python3.8",
     "jupyter.jupyterServerType": "local",
     "git.ignoreLimitWarning": true
 }
