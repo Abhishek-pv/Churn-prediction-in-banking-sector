@@ -1,5 +1,6 @@
 #Outlier detection using z-score and IQR.
 import pandas as pd
+import numpy as np
 from scipy.stats import zscore
 
 
@@ -20,18 +21,27 @@ class OutlierDetection:
 
     def zScore(self):
         df_zscore = self.clean_df.apply(zscore)
-        print(df_zscore.head(5))
-        for j in df_zscore.iteritems(): 
-            print(j)
-            # if j > 3 or j < -3:
-            #     print("outliers present and value is {}".format(j))
-            # else:
-            #     print("hurray")
-        
+        for col in df_zscore.columns:
+            for i in range(0, len(df_zscore[col])):
+                val = df_zscore[col].iloc[i]
+                if val > 3 or val < -3:
+                    print('Outliers present in the column {} and at the idex {}'.format(col,i))
+            break
+                    
     def IQR(self):
-        print("iqr")
+        for col in self.clean_df.columns:
+            q1, q3, iqr = 0, 0, 0
+            col_list = self.clean_df[col].to_list()
+            q1 = np.quantile(col_list, .25)
+            q3 = np.quantile(col_list, .75)
+            iqr = q3 - q1
+            for j in range(0, len(col_list)):
+                if col_list[j] > (q3 + (1.5 * iqr)) or col_list[j] < (q1 - (1.5 * iqr)):
+                    print('Outliers present in the column {} and at the index {}'.format(col,j))
+            print("********")
+            
 
 if __name__ == "__main__":
     data = pd.read_csv("../Data/cleaned_data.csv")
-    ob = OutlierDetection("z-score", data)
-
+    ob = OutlierDetection("IQR", data)
+    #ob1 = OutlierDetection("z-score", data)
