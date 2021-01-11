@@ -1,11 +1,13 @@
-#Outlier detection using z-score and IQR.
 import pandas as pd
 import numpy as np
-import seaborn as sns
 from scipy.stats import zscore
 
 
 class OutlierDetection:
+
+    '''
+        #Outlier detection using z-score and IQR.
+    '''
     def __init__(self, method, df):
         self.method = method
         self.df = df
@@ -15,7 +17,7 @@ class OutlierDetection:
             self.zScore()
         elif self.method == "iqr":
             self.IQR()
-        elif self.method == "plots":
+        else:
             self.box_plot()
     
     def drop_columns(self):
@@ -30,8 +32,7 @@ class OutlierDetection:
                 val = df_zscore[col].iloc[i]
                 if val > 3 or val < -3:
                     count_zscore = count_zscore + 1
-                    #print('Outliers present in the column {} and at the idex {}'.format(col,i))
-        print("Outlier detected from z-score test is {}".format(count_zscore))
+                    print('Outliers present in the column {} and at the idex {}'.format(col,i))
                     
     def IQR(self):
         count_iqr = 0
@@ -47,16 +48,12 @@ class OutlierDetection:
                 if (col_list[j] > upper_limit) or (col_list[j] < lower_limit):
                     count_iqr = count_iqr + 1
                     print('Outliers present in the column {} and at the index {}'.format(col,j))
-        print("Outlier detected from IQR test is {}".format(count_iqr))
-
 
     def box_plot(self):
         self.clean_df.boxplot(column=list(self.clean_df.columns))
 
-            
-
 if __name__ == "__main__":
     data = pd.read_csv("../Data/cleaned_data.csv")
-    #ob_iqr = OutlierDetection("IQR", data)
-    #ob_zscore = OutlierDetection("z-score", data)
+    ob_iqr = OutlierDetection("IQR", data)
+    ob_zscore = OutlierDetection("z-score", data)
     ob_plot = OutlierDetection("plots", data)
