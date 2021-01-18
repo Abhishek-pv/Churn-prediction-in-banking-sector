@@ -23,4 +23,4 @@ if __name__ == "__main__":
     ob = OneHotEncoding(data, ['Geography', 'Gender'])
     data = data.drop(['Geography', 'Gender'], axis = 1)
     final_data = pd.concat([ob.df1, data], axis = 1)
-    final_data.to_csv('../Data/cleaned_data1.csv', index=False)
+    final_data.to_csv('../Data/engineered_data.csv', index=False)
